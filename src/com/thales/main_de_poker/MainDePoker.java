@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.thales.main_de_poker.model.Carte;
 
@@ -35,7 +36,7 @@ public class MainDePoker {
 
         verifierUnicite();
 
-        construireMapOccurence();
+        construireMapOccurenceJava8Style();
 
         initAnnonce();
 
@@ -80,7 +81,14 @@ public class MainDePoker {
             }
         }
     }
-
+    
+    private void construireMapOccurenceJava8Style() {
+        occurenceValeurs = cartes.stream().map(Carte::getValeur)
+                .collect(Collectors.groupingBy(v -> v, Collectors.counting()));
+        occurenceSymboles = cartes.stream().map(Carte::getSymbole)
+                .collect(Collectors.groupingBy(v -> v, Collectors.counting()));
+    }
+    
     public String getOutput() {
         boolean isFirst = true;
         StringBuilder builder = new StringBuilder();
